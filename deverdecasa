@@ -1,0 +1,29 @@
+DELIMITER $$
+
+CREATE FUNCTION conta_nivel(saldo DECIMAL(10,2))
+RETURNS VARCHAR(20)
+DETERMINISTIC
+BEGIN
+    DECLARE nivel VARCHAR(20);
+
+    IF saldo > 35000 THEN
+        SET nivel = 'PLATINIUM';
+    ELSEIF saldo > 10000 THEN
+        SET nivel = 'GOLD';
+    ELSE
+        SET nivel = 'SILVER';
+    END IF;
+
+    RETURN nivel;
+END;
+$$
+
+DELIMITER ;
+
+
+SELECT 
+    account_id,
+    avail_balance,
+    conta_nivel(avail_balance) AS nivel_conta
+FROM 
+    account;
